@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="dark notranslate" translate="no">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0c14" />
+    <meta name="google" content="notranslate" />
+    <title data-i18n="signup_title">GGE BOT Manager | Professional Goodgame Empire Bot</title>
+    <link rel="icon" href="icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css?v=1.0.3">
+    <script src="js/lang.js?v=1.0.3"></script>
+    <script>
+        const serverDetailsMap = {
+          'generic_country_international': { flag: '🌐', name: 'International' },
+          'generic_country_de': { flag: '🇩🇪', name: 'Germany' },
+          'generic_country_fr': { flag: '🇫🇷', name: 'France' },
+          'generic_country_cz': { flag: '🇨🇿', name: 'Czech Republic' },
+          'generic_country_pl': { flag: '🇵🇱', name: 'Poland' },
+          'generic_language_pt': { flag: '🇵🇹', name: 'Portugal/Brazil' },
+          'generic_country_es': { flag: '🇪🇸', name: 'Spain' },
+          'generic_country_it': { flag: '🇮🇹', name: 'Italy' },
+          'generic_country_tr': { flag: '🇹🇷', name: 'Turkey' },
+          'generic_country_nl': { flag: '🇳🇱', name: 'Netherlands' },
+          'generic_country_hu': { flag: '🇭🇺', name: 'Hungary' },
+          'generic_language_skn': { flag: '🇸🇪', name: 'Scandinavia' },
+          'generic_country_ru': { flag: '🇷🇺', name: 'Russia' },
+          'generic_country_ro': { flag: '🇷🇴', name: 'Romania' },
+          'generic_country_bg': { flag: '🇧🇬', name: 'Bulgaria' },
+          'generic_country_sk': { flag: '🇸🇰', name: 'Slovakia' },
+          'generic_country_gb': { flag: '🇬🇧', name: 'United Kingdom' },
+          'generic_country_br': { flag: '🇧🇷', name: 'Brazil' },
+          'generic_country_us': { flag: '🇺🇸', name: 'USA' },
+          'generic_country_au': { flag: '🇦🇺', name: 'Australia' },
+          'generic_country_kr': { flag: '🇰🇷', name: 'South Korea' },
+          'generic_country_jp': { flag: '🇯🇵', name: 'Japan' },
+          'generic_country_his': { flag: '🇪🇸', name: 'Hispanoamerica' },
+          'generic_country_in': { flag: '🇮🇳', name: 'India' },
+          'generic_country_cn': { flag: '🇨🇳', name: 'China' },
+          'generic_country_gr': { flag: '🇬🇷', name: 'Greece' },
+          'generic_country_lt': { flag: '🇱🇹', name: 'Lithuania' },
+          'generic_country_sa': { flag: '🇸🇦', name: 'Saudi Arabia' },
+          'generic_country_ae': { flag: '🇦🇪', name: 'UAE' },
+          'generic_country_eg': { flag: '🇪🇬', name: 'Egypt' },
+          'generic_country_arab': { flag: '🌐', name: 'Arabic' },
+          'generic_country_asia': { flag: '🌐', name: 'Asia' },
+          'generic_country_hant': { flag: '🇹🇼', name: 'Taiwan/HK' },
+          'generic_country_world': { flag: '🌐', name: 'World' }
+        };
+
+        function formatServerName(locaId, instanceName) {
+          if (!locaId) return `Server ${instanceName}`;
+          const key = locaId.toLowerCase();
+          const isAr = window.getLang && window.getLang() === 'ar';
+          const map = (isAr && window.serverDetailsMapAr) ? window.serverDetailsMapAr : serverDetailsMap;
+          const info = map[key];
+          if (info) {
+            return `${info.flag} ${info.name} ${instanceName}`;
+          }
+          const cleanLoca = locaId.replace('generic_country_', '').replace('generic_language_', '').toUpperCase();
+          const serverWord = isAr ? 'سيرفر' : 'Server';
+          return `🌐 ${serverWord} ${cleanLoca} ${instanceName}`;
+        }
+
+        let serversList = [];
+        let recaptchaEnabled = false;
+
+        function updateServerListLanguage(lang) {
+            const hiddenInput = document.getElementById("game-server");
+            const selectedTextEl = document.getElementById("selected-server-text");
+            const isAr = lang === 'ar';
+            
+            if (!hiddenInput.value) {
+                selectedTextEl.textContent = isAr ? "اختر سيرفر اللعبة..." : "Select Game Server...";
+            }
+            
+            const optionsContainer = document.getElementById("server-options");
+            if (optionsContainer && serversList.length > 0) {
+                const options = optionsContainer.getElementsByClassName("dropdown-option");
+                serversList.forEach((server, index) => {
+                    const opt = options[index];
+                    if (opt) {
+                        const displayName = formatServerName(server.locaId, server.instanceName);
+                        opt.textContent = displayName;
+                        opt.setAttribute("data-search-text", displayName.toLowerCase());
+                        
+                        if (hiddenInput.value === server.value) {
+                            selectedTextEl.textContent = displayName;
+                        }
+                    }
+                });
+            }
+        }
+
+        addEventListener("DOMContentLoaded", () => {
+            const trigger = document.getElementById("server-trigger");
+            const dropdown = document.getElementById("server-dropdown");
+            const searchInput = document.getElementById("server-search");
+            const optionsContainer = document.getElementById("server-options");
+            const hiddenInput = document.getElementById("game-server");
+
+            // Open/Close Dropdown
+            trigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                trigger.classList.toggle("open-active");
+                dropdown.classList.toggle("open");
+                if (dropdown.classList.contains("open")) {
+                    searchInput.focus();
+                }
+            });
+
+            // Close when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+                    trigger.classList.remove("open-active");
+                    dropdown.classList.remove("open");
+                }
+            });
+
+            // Search filtering
+            searchInput.addEventListener("input", (e) => {
+                const query = e.target.value.toLowerCase();
+                const options = optionsContainer.getElementsByClassName("dropdown-option");
+                for (let opt of options) {
+                    const text = opt.getAttribute("data-search-text");
+                    if (text.includes(query)) {
+                        opt.style.display = "flex";
+                    } else {
+                        opt.style.display = "none";
+                    }
+                }
+            });
+
+            // Load servers XML
+            fetch('/1.xml')
+              .then(res => res.text())
+              .then(xmlText => {
+                const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
+                const instances = xmlDoc.getElementsByTagName("instance");
+                optionsContainer.innerHTML = ""; // Clear loader
+                
+                serversList = [];
+                for (let i = 0; i < instances.length; i++) {
+                  const inst = instances[i];
+                  const val = inst.getAttribute("value");
+                  let locaId = "";
+                  let name = "";
+                  for (let j = 0; j < inst.childNodes.length; j++) {
+                    const node = inst.childNodes[j];
+                    if (node.nodeName === "instanceLocaId") locaId = node.textContent;
+                    if (node.nodeName === "instanceName") name = node.textContent;
+                  }
+                  if (locaId) {
+                    const displayName = formatServerName(locaId, name);
+                    serversList.push({ value: val, locaId: locaId, instanceName: name });
+                    
+                    const optDiv = document.createElement("div");
+                    optDiv.className = "dropdown-option";
+                    optDiv.setAttribute("data-value", val);
+                    optDiv.setAttribute("data-search-text", displayName.toLowerCase());
+                    optDiv.textContent = displayName;
+                    
+                    optDiv.addEventListener("click", () => {
+                        // Remove previous selection
+                        const prevSelected = optionsContainer.querySelector(".dropdown-option.selected");
+                        if (prevSelected) prevSelected.classList.remove("selected");
+                        
+                        // Select current
+                        optDiv.classList.add("selected");
+                        hiddenInput.value = val;
+                        document.getElementById("selected-server-text").textContent = displayName;
+                        
+                        // Close dropdown
+                        trigger.classList.remove("open-active");
+                        dropdown.classList.remove("open");
+                    });
+                    
+                    optionsContainer.appendChild(optDiv);
+                  }
+                }
+                
+                // Set text according to current language after loading
+                updateServerListLanguage(window.getLang ? window.getLang() : 'en');
+              }).catch(e => {
+                console.error("Failed to load servers XML:", e);
+                const errMsg = window.getTranslation ? window.getTranslation("signup_error_loading_servers") : "Error loading servers.";
+                optionsContainer.innerHTML = `<div class="dropdown-optionloading">${errMsg}</div>`;
+              });
+
+            // Check reCAPTCHA configuration
+            fetch('/api/recaptcha-config')
+              .then(res => res.json())
+              .then(config => {
+                if (config.enabled && config.siteKey) {
+                  recaptchaEnabled = true;
+                  window.onRecaptchaLoad = () => {
+                    grecaptcha.render('recaptcha-container', {
+                      'sitekey': config.siteKey,
+                      'theme': 'dark'
+                    });
+                  };
+                  const script = document.createElement('script');
+                  script.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit';
+                  script.async = true;
+                  script.defer = true;
+                  document.head.appendChild(script);
+                }
+              }).catch(e => {
+                console.warn("Failed to check reCAPTCHA configuration:", e);
+              });
+
+            document.getElementById("signup-form").addEventListener('submit', handleRegister);
+        });
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById("signup-form");
+            const username = form.querySelector("#username").value;
+            const email = form.querySelector("#email").value;
+            const password = form.querySelector("#password").value;
+            const server = form.querySelector("#game-server").value;
+            const infoBanner = form.querySelector("#signup-info-banner");
+
+            infoBanner.innerHTML = "";
+            infoBanner.className = "login-info-banner";
+
+            if (!username || !password || !email || !server) {
+                infoBanner.innerHTML = window.getTranslation ? window.getTranslation("err_required_fields") : "All fields are required.";
+                infoBanner.style.display = "block";
+                return false;
+            }
+
+            let recaptchaToken = null;
+            if (recaptchaEnabled) {
+                try {
+                    recaptchaToken = grecaptcha.getResponse();
+                } catch (e) {}
+                if (!recaptchaToken) {
+                    infoBanner.innerHTML = window.getTranslation ? window.getTranslation("err_recaptcha_required") : "Please complete the CAPTCHA check.<br>يرجى إكمال اختبار التحقق (CAPTCHA).";
+                    infoBanner.style.display = "block";
+                    return false;
+                }
+            }
+
+            try {
+                let response = await fetch('/api', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        id: 1, // signup action ID
+                        username: username,
+                        password: password,
+                        email: email,
+                        server: server,
+                        recaptchaToken: recaptchaToken
+                    }),
+                    headers: {
+                        "Content-Type": "application/json; charset=UTF-8"
+                    }
+                });
+                
+                let json = await response.json();
+                if (json.r === 0) {
+                    // Sign up successful, redirect (session cookie set by server)
+                    infoBanner.innerHTML = window.getTranslation ? window.getTranslation("success_registration") : "Registration successful! Redirecting...";
+                    infoBanner.style.background = "rgba(0, 189, 166, 0.1)";
+                    infoBanner.style.borderColor = "rgba(0, 189, 166, 0.2)";
+                    infoBanner.style.color = "var(--accent)";
+                    infoBanner.style.display = "block";
+                    setTimeout(() => {
+                        window.location.replace("/index.html");
+                    }, 1500);
+                } else {
+                    infoBanner.innerHTML = json.error || (window.getTranslation ? window.getTranslation("err_registration_failed") : "Registration failed.");
+                    infoBanner.style.display = "block";
+                    if (recaptchaEnabled) {
+                        try { grecaptcha.reset(); } catch (e) {}
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                infoBanner.innerHTML = window.getTranslation ? window.getTranslation("err_network") : "An error occurred. Please try again.";
+                infoBanner.style.display = "block";
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+
+<div class="lang-switch-container">
+    <button class="lang-switch-btn" onclick="toggleLanguage()"></button>
+</div>
+
+<div class="front-panel-anchor">
+    <div class="front-panel">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="icon.png" class="ashes-logo" alt="EGY BOT Logo">
+        </div>
+
+        <!-- Title -->
+        <h1 class="page-title" data-i18n="signup_welcome">Create Account</h1>
+        <p class="page-subtitle" data-i18n="signup_subtitle">Get started with your game automation dashboard</p>
+
+        <!-- Form -->
+        <form id="signup-form">
+            <div class="input-field-container">
+                <div class="login-info-banner" id="signup-info-banner" style="margin-bottom: 4px; text-align: center; font-size: 13.5px;"></div>
+                
+                <div class="registration-warning-banner" data-i18n="signup_warning" style="background: rgba(255, 107, 107, 0.08); border: 1px solid rgba(255, 107, 107, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; color: #ff6b6b; text-align: right; direction: rtl; font-family: 'Cairo', sans-serif;">
+                    ⚠️ <strong>تنبيه هام جداً:</strong><br>
+                    يجب أن يكون <strong>البريد الإلكتروني (Game Email)</strong> و <strong>السيرفر</strong> مطابقين تماماً لبيانات حسابك المسجل داخل اللعبة بالملي! لن تتمكن من تغيير البريد الإلكتروني أو السيرفر الخاص بالحساب نهائياً بعد إنشاء الحساب!
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" class="input-field" id="username" data-i18n="signup_placeholder_username" placeholder="Username (Dashboard Login)" required autocomplete="username">
+                </div>
+
+                <div class="input-group">
+                    <input type="email" class="input-field" id="email" data-i18n="signup_placeholder_email" placeholder="Game Email (GGE Account)" required autocomplete="email">
+                </div>
+
+                <div class="input-group">
+                    <input type="password" class="input-field" id="password" data-i18n="signup_placeholder_password" placeholder="Password (Dashboard)" required autocomplete="new-password">
+                </div>
+
+                <div class="input-group custom-select-group">
+                    <div class="custom-select-trigger" id="server-trigger">
+                        <span class="selected-text" id="selected-server-text" data-i18n="signup_placeholder_server">Select Game Server...</span>
+                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="custom-select-dropdown" id="server-dropdown">
+                        <div class="dropdown-search-container">
+                            <input type="text" class="dropdown-search-input" id="server-search" data-i18n="signup_search_server" placeholder="Search servers...">
+                        </div>
+                        <div class="dropdown-options-list" id="server-options">
+                            <div class="dropdown-optionloading" id="server-loading-label" data-i18n="signup_loading_servers">Loading servers...</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="game-server" required>
+                </div>
+
+                <div id="recaptcha-container" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+                <button type="submit" class="signin-signout" data-i18n="signup_btn">Sign Up</button>
+                
+                <div style="margin-top: 20px; text-align: center; font-size: 13.5px; color: var(--text-sec);">
+                    <span data-i18n="signup_already_account">Already have an account? </span><a href="signin.html?v=1.0.3" data-i18n="signin_link" style="color: var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; transition: color 0.2s ease;">Sign In</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Dev credit -->
+        <div class="dev-credit" style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 24px;">
+            <span data-i18n="dev_by">Dev By </span>
+            <a href="https://github.com/your_github" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: 700;">Developer</a>
+            <span style="color: rgba(255,255,255,0.15);">|</span>
+            <a href="https://t.me/your_telegram" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                Telegram
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="dark notranslate" translate="no">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0c14" />
+    <meta name="google" content="notranslate" />
+    <title data-i18n="signin_title">GGE BOT Manager | Professional Goodgame Empire Bot</title>
+    <link rel="icon" href="icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css?v=1.0.3">
+    <script src="js/lang.js?v=1.0.3"></script>
+    <script src="js/index.js?v=1.0.3"></script>
+</head>
+<body>
+
+<div class="lang-switch-container">
+    <button class="lang-switch-btn" onclick="toggleLanguage()"></button>
+</div>
+
+<div class="front-panel-anchor">
+    <div class="front-panel">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="icon.png" class="ashes-logo" alt="EGY BOT Logo">
+        </div>
+
+        <!-- Title -->
+        <h1 class="page-title" data-i18n="signin_welcome">Welcome back</h1>
+        <p class="page-subtitle" data-i18n="signin_subtitle">Sign in to your GGE Radar account</p>
+
+        <!-- Form -->
+        <form id="login-form">
+            <div class="input-field-container">
+                <div class="login-info-banner" id="login-info-banner"></div>
+                
+                <div class="login-warning-note" data-i18n="signin_warning" style="background: rgba(0, 189, 166, 0.08); border: 1px solid rgba(0, 189, 166, 0.2); border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; font-size: 12.5px; line-height: 1.4; color: var(--accent); text-align: right; direction: rtl; font-family: 'Cairo', sans-serif;">
+                    💡 <strong>تنبيه:</strong> إذا كنت تسجل الدخول باستخدام البريد الإلكتروني، يرجى كتابة <strong>بريدك الإلكتروني المسجل في اللعبة</strong>.
+                </div>
+
+                <div class="input-group">
+                    <input type="text" class="input-field" id="email_name" data-i18n="signin_placeholder_email" placeholder="Username or Game Email" autocomplete="username" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" class="input-field" id="password" data-i18n="signin_placeholder_password" placeholder="Password" autocomplete="current-password" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <label class="remember-password">
+                        <input type="checkbox" id="remember-password">
+                        <span class="checkbox-custom"></span>
+                        <span class="label-text" data-i18n="signin_keep_signed_in">Keep me signed in</span>
+                    </label>
+                </div>
+                
+                <div id="recaptcha-container" style="margin-bottom: 16px; display: flex; justify-content: center;"></div>
+                
+                <button type="submit" class="signin-signout" data-i18n="signin_btn">Sign In</button>
+                
+                <div style="margin-top: 20px; text-align: center; font-size: 13.5px; color: var(--text-sec);">
+                    <span data-i18n="signin_no_account">Don't have an account? </span><a href="signup.html?v=1.0.3" data-i18n="signup_link" style="color: var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; transition: color 0.2s ease;">Sign Up</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Dev credit -->
+        <div class="dev-credit" style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 24px;">
+            <span data-i18n="dev_by">Dev By </span>
+            <a href="https://github.com/your_github" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: 700;">Developer</a>
+            <span style="color: rgba(255,255,255,0.15);">|</span>
+            <a href="https://t.me/your_telegram" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                Telegram
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

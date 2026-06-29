@@ -1,0 +1,17 @@
+node_modules/
+website/node_modules/
+user.db*
+*.log
+.env
+.DS_Store
+1.xml
+ggeConfig.json
+ItemsVersion.properties
+package-lock.json
+items/"berimond_shield_counter_*.json" 
+uploads/
+backup_temp/
+old/
+*.txt
+berimond_shield_counter_*.json
+addons-extra/

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // Diagnostic global error reporting to catch blank screen bugs
+      window.addEventListener('error', function(event) {
+        setTimeout(function() {
+          const errorDiv = document.createElement('div');
+          errorDiv.style.position = 'fixed';
+          errorDiv.style.top = '0';
+          errorDiv.style.left = '0';
+          errorDiv.style.width = '100%';
+          errorDiv.style.background = '#f8d7da';
+          errorDiv.style.color = '#721c24';
+          errorDiv.style.padding = '20px';
+          errorDiv.style.border = '2px solid #dc3545';
+          errorDiv.style.zIndex = '999999';
+          errorDiv.style.fontFamily = 'monospace';
+          errorDiv.style.fontSize = '14px';
+          errorDiv.style.whiteSpace = 'pre-wrap';
+          errorDiv.innerHTML = '<strong>🚨 Unhandled JavaScript Error:</strong><br/>' + 
+            event.message + '<br/>File: ' + event.filename + ' (Line: ' + event.lineno + ', Col: ' + event.colno + ')';
+          document.body.appendChild(errorDiv);
+        }, 100);
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        setTimeout(function() {
+          const errorDiv = document.createElement('div');
+          errorDiv.style.position = 'fixed';
+          errorDiv.style.top = '0';
+          errorDiv.style.left = '0';
+          errorDiv.style.width = '100%';
+          errorDiv.style.background = '#f8d7da';
+          errorDiv.style.color = '#721c24';
+          errorDiv.style.padding = '20px';
+          errorDiv.style.border = '2px solid #dc3545';
+          errorDiv.style.zIndex = '999999';
+          errorDiv.style.fontFamily = 'monospace';
+          errorDiv.style.fontSize = '14px';
+          errorDiv.style.whiteSpace = 'pre-wrap';
+          errorDiv.innerHTML = '<strong>🚨 Unhandled Promise Rejection:</strong><br/>' + 
+            (event.reason && (event.reason.stack || event.reason.message || event.reason));
+          document.body.appendChild(errorDiv);
+        }, 100);
+      });
+
+      if (!document.cookie.split('; ').some(r => r.startsWith('uuid='))) {
+        window.location.href = 'signin.html';
+      }
+    </script>
+    <link rel="icon" href="/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0c16" />
+    <meta name="description" content="EGY BOT — Advanced Game Automation & Monitoring Dashboard" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>EGY BOT — Dashboard</title>
+    <script type="module" crossorigin src="/assets/index-CQcXJY3f.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-jBG-aa_7.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!-- Vite module loader for entry point -->
+  </body>
+</html>

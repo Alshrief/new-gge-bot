@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "backup": "node backup.js"
+  },
+  "dependencies": {
+    "@orpc/client": "^1.14.3",
+    "@orpc/server": "^1.14.3",
+    "bufferutil": "^4.1.0",
+    "dayjs": "^1.11.20",
+    "discord.js": "^14.26.4",
+    "emoji-dictionary": "^1.0.12",
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^4.0.0",
+    "https-proxy-agent": "^9.0.0",
+    "i18n": "^0.15.3",
+    "limiter": "^3.0.0",
+    "node-cache": "^5.1.2",
+    "npm-check-updates": "^22.2.0",
+    "pretty-time": "^1.1.0",
+    "pureimage": "^0.4.18",
+    "sharp": "^0.34.5",
+    "socks-proxy-agent": "^10.0.0",
+    "turl": "^1.1.2",
+    "undici": "^8.2.0",
+    "ws": "^8.20.1",
+    "xml2js": "^0.6.2"
+  }
+}
