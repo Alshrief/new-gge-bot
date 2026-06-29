@@ -22,7 +22,7 @@ const client = hasDiscordConfig ? new Client({
 
 if (client) {
     client.on(Events.ClientReady, () =>
-        client.user.setActivity(ggeConfig.discordBanner ? ggeConfig.discordBanner : 'https://github.com/Alshrief'))
+        client.user.setActivity(ggeConfig.discordBanner ? ggeConfig.discordBanner : 'GGE Bot Manager'))
     client.login(ggeConfig.discordToken).catch(err => {
         console.error("Failed to login to Discord inside worker thread:", err)
     })

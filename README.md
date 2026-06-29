@@ -1,13 +1,24 @@
 # GGE-BOT
 
+> [!IMPORTANT]
+> 📢 **هام جداً للمشتركين / Important for Subscribers**
+> 
+> **العربية:** هذا المستودع لا يحتوي على الإضافات الخاصة والمدفوعة (`addons-extra`) بشكل افتراضي لحمايتها. إذا كنت مشتركاً أو قمت بشراء البوت وتريد الحصول على ملفات الإضافات الخاصة، يرجى التواصل مع المطور لتفعيل الصلاحيات لك على:
+> - **تيليجرام:** [@gangcard](https://t.me/gangcard)
+> - **ديسكورد:** `ahmedlord4673`
+>
+> **English:** This public repository does not include the premium/extra plugins (`addons-extra`) by default. If you are a subscriber or have purchased the bot and want to get access to these extra plugins, please contact the developer:
+> - **Telegram:** [@gangcard](https://t.me/gangcard)
+> - **Discord:** `ahmedlord4673`
+
 A self-hosted automation bot for Goodgame Empire. Runs on Node.js, has a web dashboard you control from your browser, and sends real-time attack alerts to Discord — including generated images of the incoming troop formations.
 
 ---
 
-![Stars](https://img.shields.io/github/stars/Alshrief/GGE-BOT?style=flat-square&label=Stars)
-![Forks](https://img.shields.io/github/forks/Alshrief/GGE-BOT?style=flat-square&label=Forks)
-![Watchers](https://img.shields.io/github/watchers/Alshrief/GGE-BOT?style=flat-square&label=Watchers)
-![Issues](https://img.shields.io/github/issues/Alshrief/GGE-BOT?style=flat-square)
+![Stars](https://img.shields.io/github/stars/Alshrief/New-New-GGE-BOT?style=flat-square&label=Stars)
+![Forks](https://img.shields.io/github/forks/Alshrief/New-GGE-BOT?style=flat-square&label=Forks)
+![Watchers](https://img.shields.io/github/watchers/Alshrief/New-GGE-BOT?style=flat-square&label=Watchers)
+![Issues](https://img.shields.io/github/issues/Alshrief/New-GGE-BOT?style=flat-square)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D22-brightgreen?style=flat-square)
 
 ---
