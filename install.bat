@@ -25,20 +25,41 @@ if %errorlevel% neq 0 (
 echo [1/4] Node.js detected.
 echo.
 
-:: Step 2: Check Git and download addons-extra if missing
+:: Step 2: Check and rename manually downloaded folders if addons-extra doesn't exist
+if not exist addons-extra (
+    if exist ggebot-addons-extrea (
+        echo [INFO] Found manually downloaded folder 'ggebot-addons-extrea'. Renaming to 'addons-extra'...
+        ren ggebot-addons-extrea addons-extra
+    ) else if exist ggebot-addons-extrea-main (
+        echo [INFO] Found manually downloaded folder 'ggebot-addons-extrea-main'. Renaming to 'addons-extra'...
+        ren ggebot-addons-extrea-main addons-extra
+    ) else if exist ggebot-addons-extra (
+        echo [INFO] Found manually downloaded folder 'ggebot-addons-extra'. Renaming to 'addons-extra'...
+        ren ggebot-addons-extra addons-extra
+    ) else if exist ggebot-addons-extra-main (
+        echo [INFO] Found manually downloaded folder 'ggebot-addons-extra-main'. Renaming to 'addons-extra'...
+        ren ggebot-addons-extra-main addons-extra
+    )
+)
+
+:: Step 3: Check Git and download/update addons-extra
 where git >nul 2>nul
 if %errorlevel% equ 0 (
     if not exist addons-extra (
         echo [2/4] Git detected. Cloning addons-extra repository...
         git clone https://github.com/Alshrief/ggebot-addons-extrea.git addons-extra
     ) else (
-        echo [2/4] Git detected. addons-extra already exists. Pulling latest updates...
-        cd addons-extra
-        git pull origin main
-        cd ..
+        if exist addons-extra\.git (
+            echo [2/4] Git detected. addons-extra already exists. Pulling latest updates...
+            cd addons-extra
+            git pull origin main
+            cd ..
+        ) else (
+            echo [2/4] Git detected. addons-extra exists (manually downloaded). Skipping pull updates.
+        )
     )
 ) else (
-    echo [2/4] Git not detected. Skipping addons-extra download.
+    echo [2/4] Git not detected. Skipping addons-extra clone.
 )
 echo.
 

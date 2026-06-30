@@ -28,19 +28,40 @@ fi
 echo "[1/4] Node.js detected: $(node -v)"
 echo
 
-# Step 2: Check Git and download addons-extra if missing
+# Step 2: Check and rename manually downloaded folders if addons-extra doesn't exist
+if [ ! -d "addons-extra" ]; then
+    if [ -d "ggebot-addons-extrea" ]; then
+        echo "[INFO] Found manually downloaded folder 'ggebot-addons-extrea'. Renaming to 'addons-extra'..."
+        mv ggebot-addons-extrea addons-extra
+    elif [ -d "ggebot-addons-extrea-main" ]; then
+        echo "[INFO] Found manually downloaded folder 'ggebot-addons-extrea-main'. Renaming to 'addons-extra'..."
+        mv ggebot-addons-extrea-main addons-extra
+    elif [ -d "ggebot-addons-extra" ]; then
+        echo "[INFO] Found manually downloaded folder 'ggebot-addons-extra'. Renaming to 'addons-extra'..."
+        mv ggebot-addons-extra addons-extra
+    elif [ -d "ggebot-addons-extra-main" ]; then
+        echo "[INFO] Found manually downloaded folder 'ggebot-addons-extra-main'. Renaming to 'addons-extra'..."
+        mv ggebot-addons-extra-main addons-extra
+    fi
+fi
+
+# Step 3: Check Git and download/update addons-extra
 if command -v git &> /dev/null; then
     if [ ! -d "addons-extra" ]; then
         echo "[2/4] Git detected. Cloning addons-extra repository..."
         git clone https://github.com/Alshrief/ggebot-addons-extrea.git addons-extra
     else
-        echo "[2/4] Git detected. addons-extra already exists. Pulling latest updates..."
-        cd addons-extra
-        git pull origin main
-        cd ..
+        if [ -d "addons-extra/.git" ]; then
+            echo "[2/4] Git detected. addons-extra already exists. Pulling latest updates..."
+            cd addons-extra
+            git pull origin main
+            cd ..
+        else
+            echo "[2/4] Git detected. addons-extra exists (manually downloaded). Skipping pull updates."
+        fi
     fi
 else
-    echo "[2/4] Git not detected. Skipping addons-extra download."
+    echo "[2/4] Git not detected. Skipping addons-extra clone."
 fi
 echo
 
